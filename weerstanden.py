@@ -17,14 +17,14 @@ class Weerstanden_app():
         self.plus_button = Button(self.window.root,text="plus",command=self.plus_activated_fuctie)
         self.min_button = Button(self.window.root,text="min",command=self.min_activated_fuctie)
         self.button_serie = Button(self.window.root,text="serie",command=self.bereken_serie)
-        self.button_parralel = Button(self.window.root,text="parralel",command=self.bereken_parallel)
+        self.button_parralel = Button(self.window.root,text="parralel",command=self.bereken_R)
         
         self.reset_button.place(x= cw.reset_knop_x,y=cw.reset_knop_y,width=cw.reset_knop_size_x,height=cw.reset_knop_size_y)
         self.plus_button.place(x= cw.plus_knop_x,y=cw.plus_knop_y,width=cw.plus_knop_size_x,height=cw.plus_knop_size_y)
         self.min_button.place(x= cw.min_knop_x,y=cw.min_knop_y,width=cw.min_knop_size_x,height=cw.min_knop_size_y)
         self.button_serie.place(x = cw.serie_knop_x,y = cw.serie_knop_y,height=cw.serie_knop_size_y,width=cw.serie_knop_size_x)
         self.button_parralel.place(x = cw.parralel_knop_x,y = cw.parralel_knop_y,height=cw.serie_knop_size_y,width=cw.serie_knop_size_x)
-
+        
 
         self.input_frame = Frame(self.window.root,width=cw.input_breete_x,height=cw.input_breete_y,bd= 5, relief="groove") 
         self.input_frame.place(x=cw.input_box_x,y=cw.input_box_y)
@@ -390,6 +390,24 @@ class Weerstanden_app():
         self.plus.bereken(1/weerstand_waarde_parralel)
         self.reload()
         self.reload_text()
+
+
+    def bereken_R(self):
+        weerstand_waarde = 0
+        verbonden_met_plus = []
+        for binding in self.gebonden_weerstanden:
+            if 'plus' in binding:
+                Index_plus = binding.index('plus')
+                verbonden_met_plus.append(binding[1-Index_plus])
+        if len(verbonden_met_plus) != 1:
+            # parralel
+            weerstand_waarde_temp = 0
+            for weerstand in verbonden_met_plus:
+                weerstand_waarde_temp += 1/weerstand.R
+            weerstand_waarde = 1/weerstand_waarde_temp
+        print(weerstand_waarde)
+
+
 
     
     def reload_text(self):
